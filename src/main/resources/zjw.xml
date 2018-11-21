@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zjw>
+    <zbean bname="test" bclass="com.zjw.Test"></zbean>
+    <zbean bname="test1" bclass="com.zjw.Test"></zbean>
+    <zbean bname="test2" bclass="com.zjw.Test"></zbean>
+    <zbean bname="test3" bclass="com.zjw.Test"></zbean>
+</zjw>
