@@ -1,8 +1,6 @@
 package com.zjw;
 
 import com.zjw.factory.BeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Test implements TestIn{
     public static void main(String[] args){
