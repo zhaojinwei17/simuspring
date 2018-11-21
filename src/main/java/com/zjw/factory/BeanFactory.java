@@ -20,6 +20,7 @@ public class BeanFactory {
     private JDKProxyBean jdkProxyBean = new JDKProxyBean();
     private Document document = null;
     private Map<String, Object> zbeans = new HashMap<String, Object>();
+    Map<String,String> doc=new HashMap<String, String>();
 
     public BeanFactory(String filename) {
         document = DomAnalysis.load(filename);
@@ -52,6 +53,7 @@ public class BeanFactory {
         for (Element element : elements) {
             String bname = element.attribute("bname").getValue();
             String bclass = element.attribute("bclass").getValue();
+            doc.put(bname,bclass);
             try {
                 Class<?> clazz = Class.forName(bclass);
                 Class<?>[] interfaces = clazz.getInterfaces();
@@ -87,7 +89,25 @@ public class BeanFactory {
         }
         return null;
     }
-    public  <T> T getBean(String zbeanName){
-        return  (T) zbeans.get(zbeanName);
+    public  <T> T getBean(String zbeanName) {
+        Object zbean = zbeans.get(zbeanName);
+        Constructor<?>[] constructors = zbean.getClass().getConstructors();
+        if (constructors!=null && constructors.length>0){
+
+            try {
+                zbean=cglibProxyBean.getInstance(Class.forName(doc.get(zbeanName)));
+                zbeans.put(zbeanName,zbean);
+                return (T) zbean;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }else {
+            return (T) zbean;
+        }
     }
 }
